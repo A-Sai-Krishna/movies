@@ -50,7 +50,7 @@ app.get("/movies/", async (request, response) => {
     {
         moviesList.map((eachItem)=>{
              {
-                movieName:movie_name
+                movieName:eachItem.movie_name
             }
         })
     }
@@ -66,7 +66,7 @@ app.get("/movies/:movieId/",async (request, response)=>{
      movie
     WHERE 
      movie_id=${movieId};`;
-    const movie=db.get(getMovieQuery);
+    const movie=await db.get(getMovieQuery);
     response.send(conversionOfMovieData(movie))
 });
 
@@ -133,7 +133,7 @@ app.get("/directors/:directorId/movies/",async (request, response)=>{
     const movies=await db.all(getMovieByDirectorQuery);
     response.send(
         movies.map((eachItem)=>{
-             {
+             return {
                 movieName:eachItem.movie_name
             }
         })
